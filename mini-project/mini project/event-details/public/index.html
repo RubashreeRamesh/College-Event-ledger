@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="/mini project/event-details/public/index.css"
+    />
+    <title>Event Form</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <a href="/mini project/calander/index.html">
+          <button class="back-button">BACK</button>
+        </a>
+        <p><strong>EVENT DETAILS</strong></p>
+      </div>
+
+      <form id="eventForm" enctype="multipart/form-data">
+        <input type="hidden" id="eventDate" name="date" />
+
+        <div>
+          <label for="title">Title:</label><br />
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Title of the event"
+            required
+          />
+        </div>
+        <div>
+          <label for="organizer">Organiser of the Event:</label><br />
+          <input
+            type="text"
+            id="organizer"
+            name="organizer"
+            placeholder="Organizer name"
+            required
+          />
+        </div>
+        <div>
+          <label for="chiefGuest">Event Chief Guest:</label><br />
+          <input
+            type="text"
+            id="chiefGuest"
+            name="chiefGuest"
+            placeholder="Chief guest name"
+            required
+          />
+        </div>
+        <div>
+          <label for="purpose">Purpose:</label><br />
+          <input
+            type="text"
+            id="purpose"
+            name="purpose"
+            placeholder="Highlight"
+            required
+          />
+        </div>
+        <div>
+          <label for="schedule">Schedule:</label><br />
+          <input
+            type="text"
+            id="schedule"
+            name="schedule"
+            placeholder="Time"
+            required
+          />
+        </div>
+        <div>
+          <label for="description">Description:</label><br />
+          <textarea
+            id="description"
+            name="description"
+            placeholder="Detail about event"
+            required
+          ></textarea>
+        </div>
+        <div class="btn-group">
+          <div id="photos">
+            <label>Event Photos:</label>
+            <input
+              type="file"
+              id="eventPhotos"
+              name="eventPhotos"
+              multiple
+              required
+            />
+          </div>
+          <div id="photos">
+            <label>Invitation Photos:</label>
+            <input
+              type="file"
+              id="invitationPhotos"
+              name="invitationPhotos"
+              multiple
+              required
+            />
+          </div>
+        </div>
+        <button type="submit" class="save-button">Save Event</button>
+      </form>
+      <div class="footer"></div>
+    </div>
+
+    <script>
+      // Extract date from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const eventDate = urlParams.get("date");
+      document.getElementById("eventDate").value = eventDate;
+      const title = document.getElementById("title");
+      title.focus();
+
+      document
+        .getElementById("eventForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const formData = new FormData();
+          formData.append("date", document.getElementById("eventDate").value);
+          formData.append("title", document.getElementById("title").value);
+          formData.append(
+            "organizer",
+            document.getElementById("organizer").value
+          );
+          formData.append(
+            "chiefGuest",
+            document.getElementById("chiefGuest").value
+          );
+          formData.append("purpose", document.getElementById("purpose").value);
+          formData.append(
+            "schedule",
+            document.getElementById("schedule").value
+          );
+          formData.append(
+            "description",
+            document.getElementById("description").value
+          );
+
+          // Get multiple event photos
+          const eventPhotos = document.getElementById("eventPhotos").files;
+          for (let i = 0; i < eventPhotos.length; i++) {
+            formData.append("eventPhotos", eventPhotos[i]);
+          }
+
+          // Get multiple invitation photos
+          const invitationPhotos =
+            document.getElementById("invitationPhotos").files;
+          for (let i = 0; i < invitationPhotos.length; i++) {
+            formData.append("invitationPhotos", invitationPhotos[i]);
+          }
+
+          try {
+            const response = await fetch("http://localhost:5000/save-event", {
+              method: "POST",
+              body: formData,
+            });
+
+            const result = await response.json();
+            if (!response.ok)
+              throw new Error(result.error || "Unknown error occurred.");
+
+            console.log("✅ Event saved successfully:", result);
+            window.location.href = `display.html?date=${
+              document.getElementById("eventDate").value
+            }`;
+          } catch (error) {
+            console.error("❌ Error saving event:", error);
+            alert("Failed to save event.");
+          }
+        });
+    </script>
+  </body>
+</html>

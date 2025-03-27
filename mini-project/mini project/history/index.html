@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/mini project/history/style.css">
+    <title>Event History</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <a href="/mini project/calander/index.html">
+          <button class="back-button">BACK</button>
+        </a>
+        <p>HISTORY</p>
+      </div>
+      <center>
+        <input
+          type="text"
+          class="search-box"
+          id="search"
+          placeholder="Search events..."
+        />
+      </center>
+      <div id="recent-events" class="event-section">
+        <p class="time">Recent Events</p>
+        <div id="recent-event-list"></div>
+      </div>
+      <div id="past-events" class="event-section">
+        <p class="time">Past Events</p>
+        <div id="past-event-list"></div>
+      </div>
+    </div>
+
+    <script>
+      async function fetchEvents() {
+        try {
+          const response = await fetch("http://localhost:5000/api/events");
+          if (!response.ok) throw new Error("Failed to fetch events");
+
+          const events = await response.json();
+          const today = new Date().setHours(0, 0, 0, 0);
+          const recentEvents = events.filter(
+            (event) => new Date(event.date) >= today
+          );
+          const pastEvents = events
+            .filter((event) => new Date(event.date) < today)
+            .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          displayEvents(recentEvents, "recent-event-list");
+          displayPastEvents(pastEvents, "past-event-list");
+
+          document
+            .getElementById("search")
+            .addEventListener("input", function () {
+              const searchTerm = this.value.toLowerCase();
+              const filteredRecent = recentEvents.filter((event) =>
+                filterEvent(event, searchTerm)
+              );
+              const filteredPast = pastEvents.filter((event) =>
+                filterEvent(event, searchTerm)
+              );
+              displayEvents(filteredRecent, "recent-event-list");
+              displayPastEvents(filteredPast, "past-event-list");
+            });
+        } catch (error) {
+          console.error("Error fetching events:", error);
+        }
+      }
+
+      function filterEvent(event, searchTerm) {
+        return [
+          event.title,
+          event.chiefGuest,
+          event.timing,
+          event.organizer,
+          event.date,
+        ].some((field) => field && field.toLowerCase().includes(searchTerm));
+      }
+
+      function displayEvents(events, containerId) {
+        const eventList = document.getElementById(containerId);
+        eventList.innerHTML = "";
+        events.forEach((event) => {
+          const eventCard = document.createElement("div");
+          eventCard.classList.add("event-card");
+          eventCard.innerHTML = `
+                    <div class="summary">
+                        <p class="title">${event.title} [${event.date}]</p>
+                    </div>
+                    <div class="details">
+                        <p class="title">${event.title}</p>
+                        <p><li><strong>Date:</strong> ${event.date}</p>
+                        <p><li><strong>Organizer:</strong> ${event.organizer}</p>
+                        <p><li><strong>Chief Guest:</strong> ${event.chiefGuest}</p>   
+                    </div>
+                    <button class="view-btn" onclick="viewEvent('${event.date}')">view</button>
+                `;
+          eventList.appendChild(eventCard);
+        });
+      }
+
+      function displayPastEvents(events, containerId) {
+        const eventList = document.getElementById(containerId);
+        eventList.innerHTML = "";
+        events.forEach((event) => {
+          const eventCard = document.createElement("div");
+          eventCard.classList.add("event-card");
+          eventCard.innerHTML = `
+                    <div class="summary">
+                        <p class="title">${event.title} [${event.date}]</p>
+                    </div>
+                    <div class="details">
+                        <p class="title">${event.title}</p>
+                        <p><li><strong>Date:</strong> ${event.date}</p>
+                        <p><li><strong>Organizer:</strong> ${event.organizer}</p>
+                        <p><li><strong>Chief Guest:</strong> ${event.chiefGuest}</p>
+                        
+                    </div>
+                    <button class="view-btn" onclick="viewEvent('${event.date}')">View</button>
+                `;
+          eventList.appendChild(eventCard);
+        });
+      }
+
+      function viewEvent(eventDate) {
+        window.location.href = `/mini project/event-details/public/display.html?date=${eventDate}`;
+      }
+
+      fetchEvents();
+    </script>
+  </body>
+</html>
