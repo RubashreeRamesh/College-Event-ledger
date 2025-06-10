@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="/mini project/event-details/public/display.css"
+    />
+    <title>Event Details</title>
+  </head>
+  <body>
+
+
+    <div class="container">
+      <div class="header">
+        <a href="/mini project/calander/index.html">
+          <button class="back-button">BACK</button>
+        </a>
+        <p><strong>EVENT DETAILS</strong></p>
+        <button id="downloadPdf">Download</button>
+      </div>
+
+      <p id="event-date"></p>
+      <div id="event-data" class="event-info">
+        <h2 id="title"></h2>
+        <p><strong>Organizer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong>&nbsp;&nbsp; <span id="organizer"></span></p>
+        <p><strong>Chief Guest&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong>&nbsp;&nbsp; <span id="chiefGuest"></span></p>
+        <p><strong>Purpose&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong>&nbsp;&nbsp; <span id="purpose"></span></p>
+        <p><strong>Schedule&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong>&nbsp;&nbsp; <span id="schedule"></span></p>
+        <p><strong>Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong>&nbsp;&nbsp; <span id="description"></span></p>
+        <h3>Event Photos&nbsp;&nbsp;&nbsp;:</h3>
+        <div id="eventPhotosContainer"></div>
+
+        <h3>Invitation Photos&nbsp;&nbsp;&nbsp;:</h3>
+        <div id="invitationPhotosContainer"></div>
+      </div>
+      <p id="error-message" class="error-message"></p>
+      <div class="footer"></div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventDate = urlParams.get("date");
+
+        try {
+          const response = await fetch(
+            `http://localhost:5000/get-event?date=${eventDate}`
+          );
+          const event = await response.json();
+
+          if (!event) {
+            alert("Event not found!");
+            return;
+          }
+
+          document.getElementById("title").innerText =
+            event.title || "No Title";
+          document.getElementById("organizer").innerText =
+            event.organizer || "No Organizer";
+          document.getElementById("chiefGuest").innerText =
+            event.chiefGuest || "No Chief Guest";
+          document.getElementById("purpose").innerText =
+            event.purpose || "No Purpose";
+          document.getElementById("schedule").innerText =
+            event.schedule || "No Schedule";
+          document.getElementById("description").innerText =
+            event.description || "No Description";
+
+          // Display event photos
+          const eventPhotoContainer = document.getElementById(
+            "eventPhotosContainer"
+          );
+          if (event.eventPhotos && event.eventPhotos.length > 0) {
+            event.eventPhotos.forEach((photoUrl) => {
+              const img = document.createElement("img");
+              img.src = `http://localhost:5000${photoUrl}`;
+              img.width= 240;
+              img.height= 240; 
+              img.style.margin = "10px";
+              img.style.borderRadius = "12px";
+              img.margin= 5;
+              eventPhotoContainer.appendChild(img);
+            });
+          } else {
+            eventPhotoContainer.innerText = "No event photos available.";
+          }
+
+          // Display invitation photos
+          const invitationPhotoContainer = document.getElementById(
+            "invitationPhotosContainer"
+          );
+          if (event.invitationPhotos && event.invitationPhotos.length > 0) {
+            event.invitationPhotos.forEach((photoUrl) => {
+              const img = document.createElement("img");
+              img.src = `http://localhost:5000${photoUrl}`;
+              img.width= 450;
+              img.height= 800; 
+              img.style.borderRadius = "12px";
+              img.margin= 5;
+              invitationPhotoContainer.appendChild(img);
+            });
+          } else {
+            invitationPhotoContainer.innerText =
+              "No invitation photos available.";
+          }
+
+          document.getElementById("downloadPdf").addEventListener("click", async () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+          
+            // Load the College Logo
+            const img = await getBase64Image("/mnt/data/image.png");
+          
+            function pageBorder() {
+              doc.setLineWidth(1);
+              doc.setDrawColor(223, 17, 28);
+              doc.rect(10, 10, 190, 277);
+            }
+          
+            // Function to Add College Header (Logo at the Top)
+            function addCollegeHeader() {
+              doc.addImage(img, "PNG", 14, 14, 180, 26); // Adjust size and position as needed
+            }
+          
+            function addText(label, text, yPos) {
+              doc.setFontSize(12);
+              doc.setTextColor(223, 17, 28);
+              doc.setFont("helvetica", "bold");
+              doc.text(label, 20, yPos);
+              doc.setTextColor(0, 0, 0);
+              doc.setFont("helvetica", "normal");
+              doc.text(text, 60, yPos);
+            }
+          
+            // Function to Convert Image to Base64
+            function getBase64Image(url) {
+              return new Promise((resolve) => {
+                const img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.src = '/mini project/images/college-name.png';
+                img.onload = function () {
+                  const canvas = document.createElement("canvas");
+                  canvas.width = img.width;
+                  canvas.height = img.height;
+                  const ctx = canvas.getContext("2d");
+                  ctx.drawImage(img, 0, 0);
+                  resolve(canvas.toDataURL("image/png"));
+                };
+              });
+            }
+          
+            // First Page
+            pageBorder();
+            addCollegeHeader(); 
+          
+            doc.setFontSize(22);
+            doc.setTextColor(223, 17, 28);
+            doc.setFont("helvetica", "bold");
+            doc.text(event.title, 105, 50, { align: "center" });
+          
+            addText("Date :", event.date, 60);
+            addText("Organizer :", event.organizer, 70);
+            addText("Chief Guest :", event.chiefGuest, 80);
+            addText("Purpose :", event.purpose, 90);
+            addText("Schedule :", event.schedule, 100);
+          
+            // Description
+            doc.setFontSize(12);
+            doc.setTextColor(223, 17, 28);
+            doc.setFont("helvetica", "bold");
+            doc.text("Description :", 20, 110);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(0, 0, 0);
+            const splitDesc = doc.splitTextToSize(event.description, 170);
+            doc.text(splitDesc, 20, 120);
+          
+            doc.addPage();
+          
+            // Event Photos
+            pageBorder();
+            addCollegeHeader(); // Add Logo on Each Page
+          
+            let yPos = 50;
+            for (let i = 0; i < event.eventPhotos.length; i++) {
+              doc.addImage(event.eventPhotos[i], "JPEG", 40, yPos, 120, 70);
+              yPos += 80;
+              if (yPos > 260) {
+                doc.addPage();
+                pageBorder();
+                addCollegeHeader();
+                yPos = 60;
+              }
+            }
+          
+            // Invitation Images
+            doc.addPage();
+            pageBorder();
+            addCollegeHeader();
+          
+            yPos = 50;
+            for (let i = 0; i < event.invitationPhotos.length; i++) {
+              doc.addImage(event.invitationPhotos[i], "JPEG", 25, yPos, 160, 220);
+              yPos += 260;
+              if (yPos > 270) {
+                doc.addPage();
+                pageBorder();
+                addCollegeHeader();
+                yPos = 60;
+              }
+            }
+          
+            // Remove the last page if empty
+            const totalPages = doc.internal.getNumberOfPages();
+            if (totalPages > 1) {
+              doc.deletePage(totalPages);
+            }
+          
+            // Save the PDF
+            doc.save(`${event.title}-${event.date}.pdf`);
+          });
+          
+          
+        } catch (error) {
+          console.error("Error loading event:", error);
+          alert("Failed to load event.");
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,235 @@
+body {
+  font-family: "Poppins","Montserrat", serif;
+  text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+    background: url("/mini project/images/dotted-bg.png") no-repeat center center fixed;
+    background-size: cover;
+  }
+
+  .container{
+    text-align: center;
+    max-width: 900px;
+    margin: 25px auto;
+    background-color: #fff;
+    color: #ff5f6d;
+    border-radius: 10px;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .header {
+    height: 60px;
+    display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+    margin-bottom: 20px;
+    background: url("/mini project/images/form-header.png");
+    background-size: cover;
+     padding: 20px 28px;
+    border-radius: 10px 10px 0 0;
+    color: white;
+  }
+
+  .header p {
+    font-size: 34px;
+  font-weight: 800;
+  text-align: center;
+  color: #fff;
+  padding: 15px;
+  opacity: 0.9;
+  margin: 0 auto;
+  }
+
+  .back-button {
+    background-color: white;
+  font-family: "Poppins", "Montserrat", serif;
+  color: #ff5f6d;
+  border: none;
+  padding: 10px 30px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0px;
+  display: inline-block;
+  font-weight: bolder;
+  opacity: 0.95;
+  }
+
+  .back-button:hover {
+    background-color: #ff5f6c88;
+    color: #fff;
+    border: 1px solid #fff;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  label {
+    font-weight: bolder;
+    font-size: 18px;
+  }
+
+  input,
+  textarea {
+    margin-top: 10px;
+    width: 62%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  textarea {
+    height: 100px;
+    resize: none;
+  }
+
+  .save-button {
+    background: url("/mini project/images/submit-red.png");
+    background-size: cover;
+    color: white;
+    border: none;
+    margin: 20px auto 0px;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 65%;
+    border-radius: 26px;
+    font-family: "Poppins","Montserrat", serif;
+    text-transform: uppercase;
+    transition: background 0.3s ease-in-out
+  }
+
+  .save-button:hover{
+    background: url("/mini project/images/submit-blue.png");
+    background-size: cover;
+  }
+
+  .btn-group{
+    display: flex;
+    justify-content: center;
+  }
+  #photos{
+    width: 38%;
+  }
+
+  .footer{
+    height: 16px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 34px;
+    background: url("/mini project/images/form-footer.png");
+    background-size: cover;
+    padding: 16px 345px 10px 36px;
+    border-radius: 0 0 10px 10px;
+  }
+
+  @media screen and (max-width: 1024px) {
+  .container {
+    max-width: 95%;
+    margin: 20px auto;
+  }
+
+  .header,
+  .footer {
+    flex-direction: row;
+  }
+
+  .header p {
+    font-size: 26px;
+  }
+
+  .back-button {
+    padding: 10px 24px;
+    font-size: 13px;
+  }
+
+  input,
+  textarea {
+    width: 80%;
+  }
+
+  .save-button {
+    width: 80%;
+    font-size: 16px;
+  }
+
+  #photos {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    background-size: cover;
+    background-attachment: fixed;
+  }
+
+  .container {
+    max-width: 95%;
+    margin: 15px auto;
+    padding: 10px;
+  }
+
+  .header,
+  .footer {
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 20px;
+    text-align: center;
+  }
+
+  .header p {
+    font-size: 20px;
+    margin-top: 6px;
+  }
+
+  .back-button {
+    width: 90%;
+    padding: 10px;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  form {
+    gap: 16px;
+  }
+
+  label {
+    font-size: 16px;
+  }
+
+  input,
+  textarea {
+    width: 95%;
+    font-size: 15px;
+  }
+
+  .save-button {
+    width: 90%;
+    font-size: 15px;
+    padding: 12px 16px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  #photos {
+    width: 90%;
+  }
+
+  .footer {
+    height: auto;
+    margin-top: 24px;
+  }
+}
+

@@ -1,0 +1,261 @@
+body {
+  font-family: "Poppins", "Montserrat", serif;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+  background: url("/mini project/images/dotted-bg.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.container {
+  text-align: center;
+  max-width: 900px;
+  margin: 25px auto;
+  background-color: #fff;
+  color: #ff5f6d;
+  border-radius: 10px;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+  overflow-x: hidden;
+}
+
+.header {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  background: url("/mini project/images/form-header.png");
+  background-size: cover;
+  padding: 10px 50px;
+  border-radius: 10px 10px 0 0;
+  color: white;
+}
+
+.header p {
+  font-size: 32px;
+  margin: 10px auto;
+  font-weight: bolder;
+  letter-spacing: 1.25px;
+  opacity: 0.85;
+  text-align: center;
+}
+
+.back-button,
+#downloadPdf {
+  background-color: white;
+  font-family: "Poppins", "Montserrat", serif;
+  color: #ff5f6d;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0px;
+  display: inline-block;
+  font-weight: bolder;
+  opacity: 0.95;
+   padding: 10px 28px;
+}
+
+.back-button:hover,
+#downloadPdf:hover {
+  background-color: #ff5f6c88;
+  padding: 10px 28px;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.footer {
+  height: 16px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 34px;
+  background: url("/mini project/images/form-footer.png");
+  background-size: cover;
+  padding: 16px 345px 10px 36px;
+  border-radius: 0 0 10px 10px;
+}
+
+.event-info {
+  text-align: left;
+  padding: 0px 45px;
+}
+
+.event-info h2 {
+  text-align: center;
+}
+
+.event-info span {
+  color: #000;
+  text-transform: none;
+}
+
+#eventPhotosContainer,
+#invitationPhotosContainer {
+  text-align: center;
+  gap: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+  .header p {
+    font-size: 26px;
+  }
+
+  .container {
+    margin: 15px auto;
+    max-width: 90%;
+  }
+
+  .event-info {
+    padding: 0 30px;
+  }
+
+  .footer {
+    padding: 16px 100px 10px 30px;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: row;
+    height: auto;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .header p {
+    font-size: 22px;
+    padding: 6px;
+    text-align: center;
+  }
+
+  .container {
+    width: 95%;
+  }
+
+  .event-info {
+    padding: 0 20px;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    height: auto;
+    text-align: center;
+  }
+
+  .back-button,
+  #downloadPdf {
+    margin: 8px 0;
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .event-info h2 {
+    font-size: 20px;
+  }
+
+  .event-info span {
+    font-size: 13px;
+  }
+}
+ 
+@media screen and (max-width: 1024px) {
+  .header {
+    flex-direction: row;
+    height: auto;
+    padding: 10px 20px;
+    gap: 10px;
+  }
+
+  .header p {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .container {
+    max-width: 95%;
+    margin: 15px auto;
+  }
+
+  
+
+  .event-info {
+    padding: 0 25px;
+  }
+
+  .event-info p,
+  .event-info h2,
+  .event-info h3 {
+    font-size: 15px;
+  }
+
+  #eventPhotosContainer img,
+  #invitationPhotosContainer img {
+    width: 200px;
+    height: auto;
+    margin: 8px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .header p {
+    font-size: 20px;
+  }
+
+  .container {
+    width: 95%;
+    margin: 10px auto;
+    border-radius: 8px;
+  }
+
+  .event-info {
+    padding: 0 15px;
+  }
+
+  .event-info p,
+  .event-info h2,
+  .event-info h3 {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  #eventPhotosContainer,
+  #invitationPhotosContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  #eventPhotosContainer img,
+  #invitationPhotosContainer img {
+    width: 90%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 425px){
+  .back-button,
+  #downloadPdf {
+    padding: 5px 6px;
+    font-size: 10px;
+  }
+}
