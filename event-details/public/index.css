@@ -3,7 +3,7 @@ body {
   text-transform: uppercase;
     margin: 0;
     padding: 0;
-    background: url("/mini project/images/dotted-bg.png") no-repeat center center fixed;
+    background: url("/images/dotted-bg.png") no-repeat center center fixed;
     background-size: cover;
   }
 
@@ -25,7 +25,7 @@ body {
   justify-content: center;
   align-items: center;
     margin-bottom: 20px;
-    background: url("/mini project/images/form-header.png");
+    background: url("/images/form-header.png");
     background-size: cover;
      padding: 20px 28px;
     border-radius: 10px 10px 0 0;
@@ -91,7 +91,7 @@ body {
   }
 
   .save-button {
-    background: url("/mini project/images/submit-red.png");
+    background: url("/images/submit-red.png");
     background-size: cover;
     color: white;
     border: none;
@@ -108,7 +108,7 @@ body {
   }
 
   .save-button:hover{
-    background: url("/mini project/images/submit-blue.png");
+    background: url("/images/submit-blue.png");
     background-size: cover;
   }
 
@@ -125,7 +125,7 @@ body {
     display: flex;
     justify-content: space-between;
     margin-top: 34px;
-    background: url("/mini project/images/form-footer.png");
+    background: url("/images/form-footer.png");
     background-size: cover;
     padding: 16px 345px 10px 36px;
     border-radius: 0 0 10px 10px;

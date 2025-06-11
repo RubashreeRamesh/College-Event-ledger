@@ -11,7 +11,7 @@
     />
     <link
       rel="stylesheet"
-      href="/mini project/event-details/public/display.css"
+      href="./display.css"
     />
     <title>Event Details</title>
   </head>
@@ -20,7 +20,7 @@
 
     <div class="container">
       <div class="header">
-        <a href="/mini project/calander/index.html">
+        <a href="/calander/index.html">
           <button class="back-button">BACK</button>
         </a>
         <p><strong>EVENT DETAILS</strong></p>
@@ -150,7 +150,7 @@
               return new Promise((resolve) => {
                 const img = new Image();
                 img.crossOrigin = "Anonymous";
-                img.src = '/mini project/images/college-name.png';
+                img.src = '/images/college-name.png';
                 img.onload = function () {
                   const canvas = document.createElement("canvas");
                   canvas.width = img.width;

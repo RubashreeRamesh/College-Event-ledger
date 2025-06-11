@@ -9,13 +9,13 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/mini project/history/style.css">
+    <link rel="stylesheet" href="./style.css">
     <title>Event History</title>
   </head>
   <body>
     <div class="container">
       <div class="header">
-        <a href="/mini project/calander/index.html">
+        <a href="/calander/index.html">
           <button class="back-button">BACK</button>
         </a>
         <p>HISTORY</p>
@@ -116,14 +116,14 @@
                         <p><li><strong>Chief Guest:</strong> ${event.chiefGuest}</p>
                         
                     </div>
-                    <button class="view-btn" onclick="viewEvent('${event.date}')">View</button>
+                    <button class="view-btn" onclick="viewEvent('${event.date}')">View Event</button>
                 `;
           eventList.appendChild(eventCard);
         });
       }
 
       function viewEvent(eventDate) {
-        window.location.href = `/mini project/event-details/public/display.html?date=${eventDate}`;
+        window.location.href = `/event-details/public/display.html?date=${eventDate}`;
       }
 
       fetchEvents();
