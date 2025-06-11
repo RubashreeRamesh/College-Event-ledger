@@ -161,10 +161,11 @@
           }
 
           try {
-            const response = await fetch("http://localhost:5000/save-event", {
-              method: "POST",
-              body: formData,
-            });
+            const response = await fetch("https://college-event-ledger-backend.onrender.com/save-event", {
+  method: "POST",
+  body: formData,
+});
+
 
             const result = await response.json();
             if (!response.ok)

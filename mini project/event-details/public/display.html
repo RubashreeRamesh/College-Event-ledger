@@ -57,7 +57,7 @@
 
         try {
           const response = await fetch(
-            `http://localhost:5000/get-event?date=${eventDate}`
+            `https://college-event-ledger-backend.onrender.com/get-event?date=${eventDate}`
           );
           const event = await response.json();
 
@@ -86,7 +86,7 @@
           if (event.eventPhotos && event.eventPhotos.length > 0) {
             event.eventPhotos.forEach((photoUrl) => {
               const img = document.createElement("img");
-              img.src = `http://localhost:5000${photoUrl}`;
+              img.src = `https://college-event-ledger-backend.onrender.com${photoUrl}`;
               img.width= 240;
               img.height= 240; 
               img.style.margin = "10px";
@@ -105,7 +105,7 @@
           if (event.invitationPhotos && event.invitationPhotos.length > 0) {
             event.invitationPhotos.forEach((photoUrl) => {
               const img = document.createElement("img");
-              img.src = `http://localhost:5000${photoUrl}`;
+              img.src = `https://college-event-ledger-backend.onrender.com${photoUrl}`;
               img.width= 450;
               img.height= 800; 
               img.style.borderRadius = "12px";

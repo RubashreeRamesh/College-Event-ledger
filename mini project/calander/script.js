@@ -10,7 +10,7 @@ let eventDates = []; // Store fetched event dates
 // Fetch event dates from the backend
 async function fetchEventDates() {
   try {
-    const response = await fetch("http://localhost:5000/api/events");
+    const response = await fetch("https://college-event-ledger-backend.onrender.com/api/events");
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
