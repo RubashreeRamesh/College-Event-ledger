@@ -13,7 +13,7 @@ body {
 }
 
 header {
-  background: url('/images/calender-header.png') no-repeat center;
+  background: url('College-Event-ledger/images/calender-header.png') no-repeat center;
   background-size: cover;
   height: 80px;
   display: flex;
@@ -98,7 +98,7 @@ footer p {
 
 main {
   min-height: 610px;
-  background: url("/images/calender-bg.png") no-repeat center center fixed;
+  background: url("/College-Event-ledger/images/calender-bg.png") no-repeat center center fixed;
   background-size: cover;
   padding: 20px;
 }

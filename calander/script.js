@@ -86,10 +86,10 @@ calendar.addEventListener("click", function (e) {
 
         if (eventDates.includes(selectedDate)) {
             // Event exists -> Open `display.html`
-            window.location.href = `/event-details/public/display.html?date=${selectedDate}`;
+            window.location.href = `College-Event-ledger/event-details/public/display.html?date=${selectedDate}`;
         } else {
             // No event -> Open `index.html` to create a new event
-            window.location.href = `/event-details/public/index.html?date=${selectedDate}`;
+            window.location.href = `College-Event-ledger/event-details/public/index.html?date=${selectedDate}`;
         }
     }
 });
