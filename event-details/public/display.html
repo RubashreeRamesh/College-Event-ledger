@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="display.css" />
     <title>Event Details</title>
   </head>
@@ -42,22 +45,28 @@
         const urlParams = new URLSearchParams(window.location.search);
         const eventDate = urlParams.get("date");
 
-        const toBase64 = (url) => new Promise((resolve, reject) => {
-          const img = new Image();
-          img.crossOrigin = "Anonymous";
-          img.onload = function () {
-            const canvas = document.createElement("canvas");
-            canvas.width = img.width;
-            canvas.height = img.height;
-            canvas.getContext("2d").drawImage(img, 0, 0);
-            resolve(canvas.toDataURL("image/jpeg"));
-          };
-          img.onerror = reject;
-          img.src = url;
-        });
+        const toBase64 = (url) =>
+          new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            img.onload = function () {
+              const canvas = document.createElement("canvas");
+              canvas.width = img.width;
+              canvas.height = img.height;
+              canvas.getContext("2d").drawImage(img, 0, 0);
+              resolve(canvas.toDataURL("image/jpeg"));
+            };
+            img.onerror = function () {
+              console.error("Image failed to load for base64:", url);
+              reject(new Error("Image load failed"));
+            };
+            img.src = url;
+          });
 
         try {
-          const res = await fetch(`https://college-event-ledger-backend.onrender.com/get-event?date=${eventDate}`);
+          const res = await fetch(
+            `https://college-event-ledger-backend.onrender.com/get-event?date=${eventDate}`
+          );
           const event = await res.json();
 
           if (!event) return alert("Event not found!");
@@ -65,7 +74,9 @@
           const { jsPDF } = window.jspdf;
           const doc = new jsPDF();
 
-          const logoBase64 = await toBase64("/College-Event-ledger/images/college-name.png");
+          const logoBase64 = await toBase64(
+            "/College-Event-ledger/images/college-name.png"
+          );
 
           const pageBorder = () => {
             doc.setLineWidth(1);
@@ -96,7 +107,8 @@
 
           const renderPhotos = async (containerId, photoUrls) => {
             const container = document.getElementById(containerId);
-            if (!photoUrls || photoUrls.length === 0) return container.innerText = "No photos available.";
+            if (!photoUrls || photoUrls.length === 0)
+              return (container.innerText = "No photos available.");
             for (let url of photoUrls) {
               const fullUrl = `https://college-event-ledger-backend.onrender.com${url}`;
               const img = new Image();
@@ -110,59 +122,79 @@
           };
 
           await renderPhotos("eventPhotosContainer", event.eventPhotos);
-          await renderPhotos("invitationPhotosContainer", event.invitationPhotos);
+          await renderPhotos(
+            "invitationPhotosContainer",
+            event.invitationPhotos
+          );
 
-          document.getElementById("downloadPdf").addEventListener("click", async () => {
-            doc.setFontSize(22);
-            pageBorder();
-            addHeader();
-            doc.setTextColor(223, 17, 28);
-            doc.setFont("helvetica", "bold");
-            doc.text(event.title, 105, 50, { align: "center" });
-
-            addText("Date:", event.date, 60);
-            addText("Organizer:", event.organizer, 70);
-            addText("Chief Guest:", event.chiefGuest, 80);
-            addText("Purpose:", event.purpose, 90);
-            addText("Schedule:", event.schedule, 100);
-
-            doc.setFontSize(12);
-            doc.setTextColor(223, 17, 28);
-            doc.setFont("helvetica", "bold");
-            doc.text("Description:", 20, 110);
-            doc.setFont("helvetica", "normal");
-            doc.setTextColor(0, 0, 0);
-            const descLines = doc.splitTextToSize(event.description, 170);
-            doc.text(descLines, 20, 120);
-
-            const insertPhotos = async (title, photos, isInvitations = false) => {
-              if (!photos || photos.length === 0) return;
-              doc.addPage();
+          document
+            .getElementById("downloadPdf")
+            .addEventListener("click", async () => {
+              doc.setFontSize(22);
               pageBorder();
               addHeader();
-              let y = 50;
-              for (let url of photos) {
-                const fullUrl = `https://college-event-ledger-backend.onrender.com${url}`;
-                const base64 = await toBase64(fullUrl);
-                const w = isInvitations ? 160 : 120;
-                const h = isInvitations ? 220 : 70;
-                const x = isInvitations ? 25 : 40;
-                doc.addImage(base64, "JPEG", x, y, w, h);
-                y += h + 10;
-                if (y > 260) {
-                  doc.addPage();
-                  pageBorder();
-                  addHeader();
-                  y = 60;
+              doc.setTextColor(223, 17, 28);
+              doc.setFont("helvetica", "bold");
+              doc.text(event.title, 105, 50, { align: "center" });
+
+              addText("Date:", event.date, 60);
+              addText("Organizer:", event.organizer, 70);
+              addText("Chief Guest:", event.chiefGuest, 80);
+              addText("Purpose:", event.purpose, 90);
+              addText("Schedule:", event.schedule, 100);
+
+              doc.setFontSize(12);
+              doc.setTextColor(223, 17, 28);
+              doc.setFont("helvetica", "bold");
+              doc.text("Description:", 20, 110);
+              doc.setFont("helvetica", "normal");
+              doc.setTextColor(0, 0, 0);
+              const descLines = doc.splitTextToSize(event.description, 170);
+              doc.text(descLines, 20, 120);
+
+              const insertPhotos = async (
+                title,
+                photos,
+                isInvitations = false
+              ) => {
+                if (!photos || photos.length === 0) return;
+                doc.addPage();
+                pageBorder();
+                addHeader();
+                let y = 50;
+
+                for (let url of photos) {
+                  const fullUrl = `https://college-event-ledger-backend.onrender.com${url}`;
+                  try {
+                    const base64 = await toBase64(fullUrl);
+                    const w = isInvitations ? 160 : 120;
+                    const h = isInvitations ? 220 : 70;
+                    const x = isInvitations ? 25 : 40;
+                    doc.addImage(base64, "JPEG", x, y, w, h);
+                    y += h + 10;
+
+                    if (y > 260) {
+                      doc.addPage();
+                      pageBorder();
+                      addHeader();
+                      y = 60;
+                    }
+                  } catch (error) {
+                    console.warn(`❌ Skipped broken image: ${fullUrl}`);
+                    continue; // skip to next photo if image fails
+                  }
                 }
-              }
-            };
+              };
 
-            await insertPhotos("Event Photos", event.eventPhotos);
-            await insertPhotos("Invitation Photos", event.invitationPhotos, true);
+              await insertPhotos("Event Photos", event.eventPhotos);
+              await insertPhotos(
+                "Invitation Photos",
+                event.invitationPhotos,
+                true
+              );
 
-            doc.save(`${event.title}-${event.date}.pdf`);
-          });
+              doc.save(`${event.title}-${event.date}.pdf`);
+            });
         } catch (err) {
           console.error("Error loading event:", err);
           alert("Failed to load event.");
