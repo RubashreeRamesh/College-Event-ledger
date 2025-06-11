@@ -2,7 +2,7 @@ body {
   font-family: "Poppins", "Montserrat", serif;
   margin: 0;
   padding: 20px;
-  background: url("/images/background-histroy.png") no-repeat center center fixed;
+  background: url("images/background-histroy.png") no-repeat center center fixed;
   background-size: cover;
   cursor: pointer;
 }
@@ -18,7 +18,7 @@ body {
 }
 
 .header {
-  background: url("/images/history-heading.png");
+  background: url("images/history-heading.png");
   background-size: cover;
   width: auto;
   height: 70px;

@@ -3,7 +3,7 @@ body {
   text-transform: uppercase;
   margin: 0;
   padding: 0;
-  background: url("/images/dotted-bg.png") no-repeat center center fixed;
+  background: url("images/dotted-bg.png") no-repeat center center fixed;
   background-size: cover;
 }
 
@@ -24,7 +24,7 @@ body {
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
-  background: url("/images/form-header.png");
+  background: url("images/form-header.png");
   background-size: cover;
   padding: 10px 50px;
   border-radius: 10px 10px 0 0;
@@ -70,7 +70,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin-top: 34px;
-  background: url("/images/form-footer.png");
+  background: url("images/form-footer.png");
   background-size: cover;
   padding: 16px 345px 10px 36px;
   border-radius: 0 0 10px 10px;
